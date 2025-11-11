@@ -7,68 +7,64 @@ import { Overview } from "@/components/custom/overview";
 import { Header } from "@/components/custom/header";
 import {v4 as uuidv4} from 'uuid';
 
-//const socket = new WebSocket("ws://localhost:8090"); //change to your websocket endpoint
-
-// get the device (instance)'s websocket endpoint
-const proto = window.location.protocol === "https:" ? "wss" : "ws";
-const host = window.location.hostname;
-const socket = new WebSocket(`${proto}://${host}:8090`);
+const apiBaseUrl = "http://192.168.2.134:9876";
 
 export function Chat() {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
   const [messages, setMessages] = useState<message[]>([]);
   const [question, setQuestion] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const messageHandlerRef = useRef<((event: MessageEvent) => void) | null>(null);
-
-  const cleanupMessageHandler = () => {
-    if (messageHandlerRef.current && socket) {
-      socket.removeEventListener("message", messageHandlerRef.current);
-      messageHandlerRef.current = null;
-    }
-  };
+  const conversationIdRef = useRef<string>(uuidv4());
 
 async function handleSubmit(text?: string) {
-  if (!socket || socket.readyState !== WebSocket.OPEN || isLoading) return;
+  if (isLoading) return;
 
-  const messageText = text || question;
+  const messageText = (text ?? question).trim();
+  if (!messageText) return;
+
+  const userMessageId = uuidv4();
+  const assistantMessageId = uuidv4();
+
   setIsLoading(true);
-  cleanupMessageHandler();
-  
-  const traceId = uuidv4();
-  setMessages(prev => [...prev, { content: messageText, role: "user", id: traceId }]);
-  socket.send(messageText);
+  setMessages(prev => [...prev, { content: messageText, role: "user", id: userMessageId }]);
   setQuestion("");
 
   try {
-    const messageHandler = (event: MessageEvent) => {
-      setIsLoading(false);
-      if(event.data.includes("[END]")) {
-        return;
-      }
-      
-      setMessages(prev => {
-        const lastMessage = prev[prev.length - 1];
-        const newContent = lastMessage?.role === "assistant" 
-          ? lastMessage.content + event.data 
-          : event.data;
-        
-        const newMessage = { content: newContent, role: "assistant", id: traceId };
-        return lastMessage?.role === "assistant"
-          ? [...prev.slice(0, -1), newMessage]
-          : [...prev, newMessage];
-      });
+    const response = await fetch(`${apiBaseUrl}/material_chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: messageText,
+        conversation_id: conversationIdRef.current,
+      }),
+    });
 
-      if (event.data.includes("[END]")) {
-        cleanupMessageHandler();
-      }
-    };
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
 
-    messageHandlerRef.current = messageHandler;
-    socket.addEventListener("message", messageHandler);
+    const payload = await response.json().catch(() => ({}));
+    const assistantReply =
+      payload?.response_str ??
+      payload?.results ??
+      payload?.response ??
+      "";
+
+    if (!assistantReply) {
+      throw new Error("Empty response from server");
+    }
+
+    setMessages(prev => [
+      ...prev,
+      { content: assistantReply, role: "assistant", id: assistantMessageId },
+    ]);
   } catch (error) {
-    console.error("WebSocket error:", error);
+    console.error("FastAPI request error:", error);
+    setMessages(prev => [
+      ...prev,
+      { content: "요청 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", role: "assistant", id: assistantMessageId },
+    ]);
+  } finally {
     setIsLoading(false);
   }
 }
