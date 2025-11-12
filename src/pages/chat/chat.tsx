@@ -62,7 +62,7 @@ async function handleSubmit(text?: string) {
     console.error("FastAPI request error:", error);
     setMessages(prev => [
       ...prev,
-      { content: "요청 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", role: "assistant", id: assistantMessageId },
+      { content: "요청 처리 중 오류가 발생했습니다.", role: "assistant", id: assistantMessageId },
     ]);
   } finally {
     setIsLoading(false);
