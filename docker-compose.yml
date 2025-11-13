@@ -6,10 +6,11 @@ services:
   react-app:
     # 현재 디렉토리(.)의 Dockerfile을 사용하여 이미지를 빌드
     build: .
-    container_name: material_frontend
+    image: material_front:1.0
+    container_name: material_front
     ports:
       # 호스트의 8080 포트를 컨테이너의 80 포트(Nginx)와 연결
-      - "8080:80"
+      - "9383:80"
     restart: unless-stopped # 컨테이너가 중지되면 자동으로 재시작 (서버 다운 대비)
 
 networks:

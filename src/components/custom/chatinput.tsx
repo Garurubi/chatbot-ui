@@ -16,13 +16,13 @@ interface ChatInputProps {
 const suggestedActions = [
     {
         title: 'How is the weather',
-        label: 'in Vienna?',
-        action: 'How is the weather in Vienna today?',
+        label: 'CO₂RR',
+        action: '어떤 금속 단원자가 CO₂를 가장 잘 줄일 수 있을까?',
     },
     {
         title: 'Tell me a fun fact',
-        label: 'about pandas',
-        action: 'Tell me an interesting fact about pandas',
+        label: 'HER',
+        action: '수소를 만드는 데 가장 적합한 단원자 금속은 무엇일까?',
     },
 ];
 

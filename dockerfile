@@ -28,7 +28,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 # 1단계(builder)에서 빌드된 결과물(/app/build)을 
 # Nginx의 웹 루트 디렉토리(/usr/share/nginx/html)로 복사
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # React Router 등을 위한 Nginx 설정 파일 복사
 COPY nginx.conf /etc/nginx/conf.d/default.conf
