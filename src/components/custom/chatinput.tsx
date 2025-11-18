@@ -15,12 +15,12 @@ interface ChatInputProps {
 
 const suggestedActions = [
     {
-        title: 'How is the weather',
+        title: '어떤 금속 단원자가 CO₂를 가장 잘 줄일 수 있을까?',
         label: 'CO₂RR',
         action: '어떤 금속 단원자가 CO₂를 가장 잘 줄일 수 있을까?',
     },
     {
-        title: 'Tell me a fun fact',
+        title: '수소를 만드는 데 가장 적합한 단원자 금속은 무엇일까?',
         label: 'HER',
         action: '수소를 만드는 데 가장 적합한 단원자 금속은 무엇일까?',
     },
