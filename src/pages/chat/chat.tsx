@@ -7,7 +7,10 @@ import { Overview } from "@/components/custom/overview";
 import { Header } from "@/components/custom/header";
 import {v4 as uuidv4} from 'uuid';
 
-const apiBaseUrl = "http://220.89.167.202:54859";
+// Allow deploy-specific API hosts via Vite envs while keeping current default for devs.
+const apiBaseUrl =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
+  "/fast_api";
 
 export function Chat() {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
