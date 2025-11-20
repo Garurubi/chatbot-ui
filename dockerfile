@@ -5,6 +5,10 @@ FROM node:22-alpine AS builder
 # 작업 디렉토리 설정
 WORKDIR /app
 
+# 배포 시 사용할 API 주소를 빌드 시점에 주입 (기본값은 Nginx 프록시 경로)
+ARG VITE_API_BASE_URL=/fast_api
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+
 # 1. package.json과 package-lock.json (또는 yarn.lock)만 먼저 복사
 COPY package*.json ./
 

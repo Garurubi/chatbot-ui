@@ -15,14 +15,34 @@ interface ChatInputProps {
 
 const suggestedActions = [
     {
-        title: '어떤 금속 단원자가 CO₂를 가장 잘 줄일 수 있을까?',
-        label: 'CO₂RR',
-        action: '어떤 금속 단원자가 CO₂를 가장 잘 줄일 수 있을까?',
+        label: "Single Atom Catalyst(SAC)",
+        actions: [
+            {
+                title: "수소 생산에 가장 적합한 단원자 금속은 무엇일까?",
+                action: "수소 생산에 가장 적합한 단원자 금속은 무엇일까?",
+                tag: "HER",
+            },
+            {
+                title: "CO₂RR용 단원자 촉매는 어떤 지지체가 더 안정적인가?",
+                action: "CO₂RR용 단원자 촉매는 어떤 지지체가 더 안정적인가?",
+                tag: "Structural Stability",
+            }
+        ]
     },
     {
-        title: '수소를 만드는 데 가장 적합한 단원자 금속은 무엇일까?',
-        label: 'HER',
-        action: '수소를 만드는 데 가장 적합한 단원자 금속은 무엇일까?',
+        label: "Perovskite",
+        actions: [
+            {
+                title: "MAPbI3 조성을 가지는 페로브스카이트 적층구조는?",
+                action: "MAPbI3 조성을 가지는 페로브스카이트 적층구조는?",
+                tag: "Device Physics"
+            },
+            {
+                title: "Jsc, Voc, FF 간의 상관관계(correlation)는?",
+                action: "Jsc, Voc, FF 간의 상관관계(correlation)는?",
+                tag: "Dimensionality"
+            }
+        ]
     },
 ];
 
@@ -32,34 +52,41 @@ export const ChatInput = ({ question, setQuestion, onSubmit, isLoading }: ChatIn
     return(
     <div className="relative w-full flex flex-col gap-4">
         {showSuggestions && (
-            <div className="hidden md:grid sm:grid-cols-2 gap-2 w-full">
-                {suggestedActions.map((suggestedAction, index) => (
-                    <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: 0.05 * index }}
-                    key={index}
-                    className={index > 1 ? 'hidden sm:block' : 'block'}
-                    >
-                        <Button
-                            variant="ghost"
-                            onClick={ () => {
-                                const text = suggestedAction.action;
-                                onSubmit(text);
-                                setShowSuggestions(false);
-                            }}
-                            className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
-                        >
-                            <span className="font-medium">{suggestedAction.title}</span>
-                            <span className="text-muted-foreground">
-                            {suggestedAction.label}
-                            </span>
-                        </Button>
-                    </motion.div>
+            <div className="hidden md:grid sm:grid-cols-2 gap-3 w-full">
+                {suggestedActions.map((group, groupIndex) => (
+                    <div key={group.label} className="flex flex-col gap-2">
+                        {/* 파트 제목 (좌: CO₂RR / 우: HER) */}
+                        <p className="text-s font-medium text-muted-foreground">
+                            {group.label}
+                        </p>
+
+                        {group.actions.map((suggestedAction, index) => (
+                            <motion.div
+                                key={suggestedAction.title}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                transition={{ delay: 0.05 * (groupIndex * 3 + index) }}
+                                >
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => {
+                                    const text = suggestedAction.action;
+                                    onSubmit(text);
+                                    setShowSuggestions(false);
+                                    }}
+                                    className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+                                >
+                                    <span className="font-medium">{suggestedAction.title}</span>
+                                    <span className="text-xs text-muted-foreground">{suggestedAction.tag}</span>
+                                </Button>
+                            </motion.div>
+                        ))}
+                    </div>
                 ))}
             </div>
         )}
+
         <input
         type="file"
         className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"

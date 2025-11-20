@@ -31,6 +31,31 @@ npm i
 npm run dev
 ```
 
+## Configuration
+
+The frontend expects a backend that exposes a `/material_chat` endpoint.  
+Provide the backend base URL via the `VITE_API_BASE_URL` environment variable (see `.env.example`).
+
+- Local development: create an `.env.local` file with `VITE_API_BASE_URL=http://localhost:54859`.
+- Production build: set the same variable before running `npm run build` or pass it as a Docker build argument.
+
+## Deployment
+
+### Manual build
+
+```bash
+VITE_API_BASE_URL=https://your-backend-host npm run build
+npm run serve  # serves dist/ on port 8501
+```
+
+### Docker (recommended)
+
+```bash
+cp .env.example .env   # adjust VITE_API_BASE_URL to your backend
+docker compose up --build -d
+# App becomes available on http://localhost:9383
+```
+
 ## Test Mode
 
 The project includes a test backend for development and testing purposes. To use the test mode:
