@@ -8,7 +8,7 @@ import { Overview } from "@/components/custom/overview";
 import { Header } from "@/components/custom/header";
 import {v4 as uuidv4} from 'uuid';
 
-const apiBaseUrl = "http://192.168.2.106:11280";
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?? "/fast_api";
 
 export function Chat() {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();

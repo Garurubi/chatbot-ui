@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 interface MyComponentProps {
 	node: string;
@@ -6,7 +6,7 @@ interface MyComponentProps {
 	data?: Record<string, string>;
 }
 
-export const ThinkAccordion = ({node, status, data}: MyComponentProps) =>{
+export const ThinkAccordion = ({node}: MyComponentProps) =>{
 	const [isOpen, setIsOpen] = useState(true);
 	const contentRef = useRef<HTMLDivElement>(null);
 	
