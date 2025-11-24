@@ -6,11 +6,13 @@ import { message } from "../../interfaces/interfaces"
 import { Overview } from "@/components/custom/overview";
 import { Header } from "@/components/custom/header";
 import {v4 as uuidv4} from 'uuid';
+import { Sidebar } from "@/components/custom/sidebar";
 
 // Allow deploy-specific API hosts via Vite envs while keeping current default for devs.
-const apiBaseUrl =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
-  "/fast_api";
+// const apiBaseUrl =
+//   (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
+//   "/fast_api";
+const apiBaseUrl = "http://192.168.2.135:8593"
 
 export function Chat() {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
@@ -18,6 +20,7 @@ export function Chat() {
   const [question, setQuestion] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const conversationIdRef = useRef<string>(uuidv4());
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 async function handleSubmit(text?: string) {
   if (isLoading) return;
@@ -74,17 +77,21 @@ async function handleSubmit(text?: string) {
 
   return (
     <div className="flex flex-col min-w-0 h-dvh bg-background">
-      <Header/>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+      <Header onOpenSidebar={() => setIsSidebarOpen(true)}/>
       <div className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4" ref={messagesContainerRef}>
-        {messages.length == 0 && <Overview />}
+        {messages.length == 0 && <Overview/>}
         {messages.map((message, index) => (
           <PreviewMessage key={index} message={message} />
         ))}
-        {isLoading && <ThinkingMessage />}
+        {isLoading && <ThinkingMessage/>}
         <div ref={messagesEndRef} className="shrink-0 min-w-[24px] min-h-[24px]"/>
       </div>
       <div className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
-        <ChatInput  
+        <ChatInput
           question={question}
           setQuestion={setQuestion}
           onSubmit={handleSubmit}
