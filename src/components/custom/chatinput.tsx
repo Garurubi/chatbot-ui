@@ -33,14 +33,14 @@ const suggestedActions = [
         label: "Perovskite",
         actions: [
             {
-                title: "MAPbI3 조성을 가지는 페로브스카이트 적층구조는?",
-                action: "MAPbI3 조성을 가지는 페로브스카이트 적층구조는?",
+                title: "페로브스카이트의 밴드갭과 태양전지 효율 간 상관관계를 알려주세요.",
+                action: "페로브스카이트의 밴드갭과 태양전지 효율 간 상관관계를 알려주세요.",
                 tag: "Device Physics"
             },
             {
-                title: "Jsc, Voc, FF 간의 상관관계(correlation)는?",
-                action: "Jsc, Voc, FF 간의 상관관계(correlation)는?",
-                tag: "Dimensionality"
+                title: "페로브스카이트 태양전지 연구에서 가장 많이 사용되고 있는 HTL 및 ETL 조성을 알려주세요.",
+                action: "페로브스카이트 태양전지 연구에서 가장 많이 사용되고 있는 HTL 및 ETL 조성을 알려주세요.",
+                tag: "Charge Transport Layers"
             }
         ]
     },
@@ -67,6 +67,7 @@ export const ChatInput = ({ question, setQuestion, onSubmit, isLoading }: ChatIn
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
                                 transition={{ delay: 0.05 * (groupIndex * 3 + index) }}
+                                className="h-full"
                                 >
                                 <Button
                                     variant="ghost"
@@ -75,10 +76,10 @@ export const ChatInput = ({ question, setQuestion, onSubmit, isLoading }: ChatIn
                                     onSubmit(text);
                                     setShowSuggestions(false);
                                     }}
-                                    className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+                                    className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-between items-start min-h-[100px]"
                                 >
-                                    <span className="font-medium">{suggestedAction.title}</span>
-                                    <span className="text-xs text-muted-foreground">{suggestedAction.tag}</span>
+                                    <span className="font-medium whitespace-normal">{suggestedAction.title}</span>
+                                    <span className="text-xs text-muted-foreground whitespace-normal">{suggestedAction.tag}</span>
                                 </Button>
                             </motion.div>
                         ))}

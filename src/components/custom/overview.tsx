@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { MessageCircle, BotIcon, Search, Brain, Scale } from "lucide-react";
 
 const agents = [
   {
@@ -44,12 +43,12 @@ export const Overview = () => {
 
         {/* 메인 타이틀 */}
         <h1 className="text-2xl md:text-3xl font-semibold">
-          신소재 연구 멀티에이전트 시스템
+          AI 멀티에이전트 기반 연구개발 지원 시스템
         </h1>
 
         {/* 간단 설명 */}
         <p className="text-sm md:text-base text-muted-foreground">
-          데이터 조회, 가설 생성, 토론 에이전트가 협력하여
+          다양한 AI 에이전트들이 유기적으로 협력하여 
           <br className="hidden md:block" />
           사용자의 연구 질문에 대한 근거 기반 답변과 새로운 소재 아이디어를 제안합니다.
         </p>
