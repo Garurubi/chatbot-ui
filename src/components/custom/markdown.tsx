@@ -22,6 +22,40 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
         </code>
       );
     },
+    table: ({ children, ...props }: any) => (
+      <div className="overflow-x-auto my-2">
+        <table
+          className="w-full border-collapse border border-zinc-300 dark:border-zinc-700 text-sm"
+          {...props}
+        >
+          {children}
+        </table>
+      </div>
+    ),
+    thead: ({ children, ...props }: any) => (
+      <thead
+        className="bg-zinc-100 dark:bg-zinc-800"
+        {...props}
+      >
+        {children}
+      </thead>
+    ),
+    th: ({ children, ...props }: any) => (
+      <th
+        className="border border-zinc-300 dark:border-zinc-700 px-3 py-1 text-left font-semibold"
+        {...props}
+      >
+        {children}
+      </th>
+    ),
+    td: ({ children, ...props }: any) => (
+      <td
+        className="border border-zinc-300 dark:border-zinc-700 px-3 py-1 align-top"
+        {...props}
+      >
+        {children}
+      </td>
+    ),
     ol: ({ node, children, ...props }: any) => {
       return (
         <ol className="list-decimal list-outside ml-4" {...props}>
