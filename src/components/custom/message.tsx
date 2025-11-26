@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 import { cx } from 'classix';
 import { SparklesIcon } from './icons';
 import { Markdown } from './markdown';
-import { message } from "../../interfaces/interfaces"
+import { SSEMessage } from "../../interfaces/interfaces"
 import { MessageActions } from '@/components/custom/actions';
 import {TypewriterMarkdown} from "@/components/custom/Typewriter"
 import {ThinkAccordion} from "@/components/custom/ThinkAccordion"
 
 
-export const PreviewMessage = ({ message }: { message: message; }) => {
+export const PreviewMessage = ({ message }: { message: SSEMessage; }) => {
 
   return (
     <motion.div
@@ -33,9 +33,10 @@ export const PreviewMessage = ({ message }: { message: message; }) => {
                 {(() => {
                   if (message.role === 'assistant') {
                     return <TypewriterMarkdown text={message.content} speed={25} />;
-                  } else if (message.role === 'thinking') {
-                    return <ThinkAccordion node={message.content} />;
-                  } else {
+                  }  
+                  else if (message.role === 'thinking') {
+                    return <ThinkAccordion node={message.content} status={message.data?.status} data={message.data} stream_status={message.stream_status} />;
+                  }else {
                     return <Markdown>{message.content}</Markdown>;
                   }
                 })()}
