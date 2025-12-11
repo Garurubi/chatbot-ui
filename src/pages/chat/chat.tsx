@@ -10,10 +10,10 @@ import {v4 as uuidv4} from 'uuid';
 import { Sidebar } from "@/components/custom/sidebar";
 
 // Allow deploy-specific API hosts via Vite envs while keeping current default for devs.
-// const apiBaseUrl =
-//   (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
-//   "/fast_api";
-const apiBaseUrl = "http://192.168.2.135:8593"
+const apiBaseUrl =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
+  "/fast_api";
+// const apiBaseUrl = "http://192.168.2.135:8593"
 
 export function Chat() {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();

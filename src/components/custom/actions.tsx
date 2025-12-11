@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Copy, ThumbsUp, ThumbsDown, Check } from 'lucide-react'
 import { useState } from "react"
-import { message } from "../../interfaces/interfaces"
+import { SSEMessage } from "../../interfaces/interfaces"
 
 interface MessageActionsProps {
-  message: message
+  message: SSEMessage
 }
 
 export function MessageActions({ message }: MessageActionsProps) {
@@ -20,7 +20,7 @@ export function MessageActions({ message }: MessageActionsProps) {
 
   const handleLike = () => {
     console.log("like")
-    console.log(message.id)
+    console.log(message.eventId)
     
     setLiked(!liked)
     setDisliked(false)
@@ -28,7 +28,7 @@ export function MessageActions({ message }: MessageActionsProps) {
 
   const handleDislike = () => {
     console.log("dislike")
-    console.log(message.id)
+    console.log(message.eventId)
 
     setDisliked(!disliked)
     setLiked(false)
